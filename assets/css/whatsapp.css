@@ -1,0 +1,15 @@
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:8px;
+	right:20px;
+	background-color:transparent;
+	text-align:center;
+  z-index:100;
+  left: 8px;
+}
+
+.my-float{
+	margin-top:16px;
+}
