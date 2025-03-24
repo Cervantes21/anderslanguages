@@ -1,42 +1,38 @@
-<?php 
-// if the url field is empty 
-if(isset($_POST['url']) && $_POST['url'] == ''){
+<?php
+// Conectar con la API local para pruebas
+// Para producción, cambia API_BASE_URL a 'https://anderslanguages.com/2025'
+define('API_BASE_URL', 'http://localhost:3000');
+$api_url = API_BASE_URL . '/api/proposals';
 
-     // put your email address here     
-     $youremail = 'bp@anderslanguages.com';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url']) && $_POST['url'] == '') {
+    
+    $data = [
+        'name' => $_POST['name'],
+        'email' => $_POST['email'],
+        'whatsapp' => $_POST['whatsapp'],
+        'program' => $_POST['program'],
+        'boletin' => isset($_POST['boletin']) && $_POST['boletin'] === 'yes'
+    ];
 
-          $subject = "**EN* PROPOSAL *** Spanish Immersion x $_POST[name]"; 
-     
-     
-     // prepare a "pretty" version of the message
-     $body = "This is the form that was just submitted: 
+    $json_data = json_encode($data);
 
----- PROPOSAL ----
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
 
-$_POST[name]
-$_POST[email]
-$_POST[whatsapp]
-$_POST[program]
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
----- DBASE ----
-
-$_POST[name]*$_POST[email]*$_POST[whatsapp]*$_POST[boletin]"; 
-
-     // Use the submitters email if they supplied one     
-     // (and it isn't trying to hack your form).     
-     // Otherwise send from your email address.     
-
-     if( $_POST['email'] && !preg_match( "/[\r\n]/", $_POST['email']) ) {
-         $headers = "From: bp@anderslanguages.com, $_POST[email]";     
-     } else {
-         $headers = "From: $youremail"; 
-     }
-
-     // finally, send the message     
-     mail($youremail, $subject, $body, $headers ); } // otherwise, let the spammer think that they got their message through
-     
-     header('Location: ../../en/thankyou-prices.html');
-exit('Redirecting you to ../../en/thankyou-prices.html');
-     
-     
-     ?>
+    if ($http_code == 201) {
+        header('Location: ../../en/thankyou-prices.html');
+        exit();
+    } else {
+        echo 'Error al procesar la solicitud. Intenta nuevamente.';
+    }
+} else {
+    echo 'Acceso no autorizado';
+}
+?>

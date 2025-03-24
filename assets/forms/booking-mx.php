@@ -1,89 +1,63 @@
-<?php 
-// if the url field is empty 
-if(isset($_POST['url']) && $_POST['url'] == ''){
+<?php
+// Conectar con la API local para pruebas
+// Para producción, cambia API_BASE_URL a 'https://anderslanguages.com/2025'
+define('API_BASE_URL', 'http://localhost:3000');
+$api_url = API_BASE_URL . '/api/bookings';
 
-     // put your email address here     
-     $youremail = 'bp@anderslanguages.com';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url']) && $_POST['url'] == '') {
 
-          $subject = "**EN* BOOKING CUERNAVACA *** Spanish immersion: your booking"; 
-     
-     
-     // prepare a "pretty" version of the message
-     $body = "This is the form that was just submitted:
-     
----- BOOKING ----
+    $data = [
+        'startdate' => $_POST['startdate'],
+        'altdate' => $_POST['altdate'],
+        'firstname' => $_POST['firstname'],
+        'lastname' => $_POST['lastname'],
+        'dob' => $_POST['dob'],
+        'citizenship' => $_POST['citizenship'],
+        'address' => $_POST['address'],
+        'cell' => $_POST['cell'],
+        'recell' => $_POST['recell'],
+        'email' => $_POST['email'],
+        'remail' => $_POST['remail'],
+        'program' => $_POST['program'],
+        'schedule' => $_POST['schedule'],
+        'instructor' => $_POST['instructor'],
+        'room' => $_POST['room'],
+        'extranight' => $_POST['extranight'] === 'yes',
+        'duration' => $_POST['duration'],
+        'business' => $_POST['business'] === 'yes',
+        'cultural' => $_POST['cultural'] === 'yes',
+        'fiestas' => $_POST['fiestas'] === 'yes',
+        'gastronomic' => $_POST['gastronomic'] === 'yes',
+        'golf' => $_POST['golf'] === 'yes',
+        'luxury' => false,
+        'meetgreet' => $_POST['meetgreet'] === 'yes',
+        'comment' => $_POST['comment'],
+        'company' => $_POST['company'],
+        'bill' => $_POST['bill'],
+        'second' => $_POST['second'],
+        'agree' => $_POST['agree'] === 'yes',
+        'residence' => 'CUERNAVACA',
+        'language' => 'Spanish'
+    ];
 
-$_POST[startdate]*$_POST[startdate]*$_POST[firstname]*$_POST[lastname]*$_POST[dob]*$_POST[cell]*ES*$_POST[program]$_POST[schedule]*$_POST[instructor]*$_POST[room]*$_POST[extranight]*$_POST[duration]*$_POST[business]*$_POST[cultural]*$_POST[fiestas]*$_POST[gastronomic]*$_POST[golf]*-*-*-*-*-*-*$_POST[meetgreet]*-*$_POST[comment]*$_POST[email]*https://www.anderslanguages.com/guest/$_POST[firstname]$_POST[lastname]
+    $json_data = json_encode($data);
 
----- DBASE ----
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
 
-RESIDENCE
-Residence:    CUERNAVACA
-Language:    Spanish
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
-INFORMATION ABOUT THE COURSE PARTICIPANT:
-First name:    $_POST[firstname]
-Last name:    $_POST[lastname]
-DOB:    $_POST[dob]
-Citizenship:    $_POST[citizenship]
-Full address:    $_POST[address]
-Email:    $_POST[email]
-Email (check):    $_POST[remail]
-Mobile:    $_POST[cell]
-Mobile (check):    $_POST[recell]
-Second guest:    $_POST[second]
-
-ABOUT THE COURSE
-Program:    $_POST[program]
-Schedule:    $_POST[schedule]
-Second instructor:    $_POST[instructor]
-Duration:    $_POST[duration]
-Start date:    $_POST[startdate]
-Alternative date:    $_POST[altdate]
-
-ACCOMMODATION
-Room:    $_POST[room]
-Extra night:    $_POST[extranight]
-
-EXPERIENCES
-Business:    $_POST[business]
-Cultural:    $_POST[cultural]
-Fiestas:    $_POST[fiestas]
-Gastronomic:    $_POST[gastronomic]
-Golf:    $_POST[golf]
-Luxury:   -
-
-PREMIUM SERVICES
-Meet & greet:    $_POST[meetgreet]
-
-COMMENT
-Comment guest:    $_POST[comment]
-
-BILLING
-Bill paid by:    $_POST[bill]
-Name of your employer or business:    $_POST[company]
-
-I confirm that I agree with the terms and conditions:    $_POST[agree]
-
-First and last name:
-
-$_POST[firstname] $_POST[lastname]"; 
-
-     // Use the submitters email if they supplied one     
-     // (and it isn't trying to hack your form).     
-     // Otherwise send from your email address.     
-
-     if( $_POST['email'] && !preg_match( "/[\r\n]/", $_POST['email']) ) {
-         $headers = "From: bp@anderslanguages.com, $_POST[email]";   
-     } else {
-         $headers = "From: $youremail"; 
-     }
-
-     // finally, send the message     
-     mail($youremail, $subject, $body, $headers ); } // otherwise, let the spammer think that they got their message through
-     
-     header('Location: ../../en/thankyou-bookings.html');
-exit('Redirecting you to ../../en/thankyou-bookings.html');
-     
-     
-     ?>
+    if ($http_code == 201) {
+        header('Location: ../../en/thankyou-bookings.html');
+        exit();
+    } else {
+        echo 'Error al procesar la solicitud. Intenta nuevamente.';
+    }
+} else {
+    echo 'Acceso no autorizado';
+}
