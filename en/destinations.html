@@ -280,6 +280,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     </section>
     <!-- End SPECIALS DESTINATIONS -->
+     
+    <!-- CONTACT FORM SECTION -->
+    <section class="contact-form section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Get in Touch</h2>
+          <p>Request more information about any destination</p>
+        </div>
+        <form action="/api/contact" method="POST" class="php-email-form">
+          <div class="row gy-4">
+            <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="col-md-6">
+              <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+            </div>
+            <div class="col-md-6">
+              <input type="tel" name="phone" class="form-control" placeholder="Your Phone (optional)">
+            </div>
+            <div class="col-md-12">
+              <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+            </div>
+            <!-- Anti-bot -->
+            <div class="col-md-12">
+              <input type="text" name="url" class="verberg" autocomplete="off">
+            </div>
+            <div class="col-md-12 text-center">
+              <button type="submit">Send Message</button>
+              <div class="loading">Loading...</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Thank you! We'll get back to you shortly.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
 
   </main>
   <!-- End MAIN --> 
@@ -354,13 +390,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="col-lg-3 col-md-6 footer-newsletter">
           <h4>Our Newsletter</h4>
           <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="../assets/forms/newsletter.php" method="post">
+          <form action="/api/newsletter" method="POST" class="php-email-form">
             <!-- wegbot -->
-            <div class="col-md-12">                
-            <input type="text" name="url" class="verberg" autocomplete="off">               
+            <div class="col-md-12">
+              <input type="text" name="url" class="verberg" autocomplete="off">
             </div>
             <!-- end wegbot -->
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+            <div class="newsletter-form">
+              <input type="email" name="email" required>
+              <input type="submit" value="Subscribe">
+            </div>
+          
+            <div class="loading">Loading...</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Thanks! You're now subscribed to our newsletter.</div>
           </form>
           <br>
           <h4>Learn Spanish in...</h4>

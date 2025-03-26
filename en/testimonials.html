@@ -491,15 +491,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
 
         <div class="col-lg-3 col-md-6 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="../assets/forms/newsletter.php" method="post">
-            <!-- wegbot -->
-            <div class="col-md-12">                
-            <input type="text" name="url" class="verberg" autocomplete="off">               
+          <h4>Quick Contact</h4>
+          <p>Send us a quick message and we will get back to you shortly!</p>
+          <form action="/api/contact" method="POST" class="php-email-form">
+            <!-- Anti-spam bot trap -->
+            <div class="col-md-12">
+              <input type="text" name="url" class="verberg" autocomplete="off">
             </div>
-            <!-- end wegbot -->
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+            <!-- Campos del formulario -->
+            <div class="newsletter-form">
+              <input type="text" name="name" placeholder="Your name" required>
+              <input type="email" name="email" placeholder="Your email" required>
+              <input type="tel" name="phone" placeholder="Your phone (optional)">
+              <textarea name="message" placeholder="Your message" rows="3" required></textarea>
+              <input type="submit" value="Send Message">
+            </div>
+            <div class="loading">Loading...</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Thank you! We will contact you shortly.</div>
           </form>
           <br>
           <h4>Learn Spanish in...</h4>

@@ -40,6 +40,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/verberg.css" rel="stylesheet">
+  <link href="assets/css/forms.css" rel="stylesheet">
+
   
   <!-- Google Analytics -->
     <script>
@@ -170,8 +173,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </section>
     <!-- End SPECIALS DESTINATIONS -->
     <br>    <br>    <br>    <br>
-
-
+    <!-- CONTACT FORM SECTION -->
+    <section class="contact-form section">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Get in Touch</h2>
+          <p>Request more information about any destination</p>
+        </div>
+        <form action="/api/contact" method="POST" class="php-email-form">
+          <div class="row gy-4">
+            <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="col-md-6">
+              <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+            </div>
+            <div class="col-md-6">
+              <input type="tel" name="phone" class="form-control" placeholder="Your Phone (optional)">
+            </div>
+            <div class="col-md-12">
+              <textarea name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+            </div>
+            <!-- Anti-bot -->
+            <div class="col-md-12">
+              <input type="text" name="url" class="verberg" autocomplete="off">
+            </div>
+            <div class="col-md-12 text-center">
+              <button type="submit">Send Message</button>
+              <div class="loading">Loading...</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Thank you! We'll get back to you shortly.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- END CONTACT FORM SECTION -->
 
   </main>
   <!-- End MAIN --> 
@@ -284,6 +321,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <!-- WhatsApp Floating Button -->
+  <a href="https://api.whatsapp.com/send?phone=+527771518006&text=Hola,"
+     class="float" target="_blank">
+    <img src="../assets/img/icon-whatsapp.png" alt="WhatsApp">
+  </a>
+  <style>
+    .float {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      bottom: 40px;
+      left: 10px;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .float img {
+      margin-top: 26px;
+      width: 40px;
+      height: 40px;
+    }
+  </style>
+  <!-- End WhatsApp Floating Button -->
 
 </body>
 

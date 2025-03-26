@@ -43,10 +43,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   
   <!-- Custom CSS WhatsApp -->
   <link rel="stylesheet" href="../assets/css/whatsapp.css">
-  <a href="https://api.whatsapp.com/send?phone=+527771518006&text=Hola,"
-   		 class="float" target="_blank">
-  <img src="../assets/img/icon-whatsapp.png" alt="WhatsApp">
-  </a>
   
   <!-- Google Analytics -->
     <script>
@@ -200,7 +196,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- TITLE -->
     <section id="title" class="call-to-action section">
       <div class="container section-title-left" data-aos="fade-down">
-        <h1>Request a price quote <p style="color:red">TEXT OK *******************</p></h1>
+        <h1>Request a price quote</h1>
         <br>
           <p>An ALL-INCLUSIVE Spanish Immersion Program STARTS AT USD 400 / EUR 360.</p>
           <p>However, we do offer a customized service.</p>
@@ -216,64 +212,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   
     <!-- TEXT 1/2 -->
     <section id="sales" class="portfolio-details mid-background">
-      
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-12">
-            <!-- FORM -->
-            <form action="../assets/forms/prices.php" method="post">       
+            <!-- UPDATED FORM -->
+            <form action="/api/proposal" method="POST" class="php-email-form">
               <div class="portfolio-description" data-aos="fade-left" data-aos-delay="600">
                 <div class="row gy-4">
-                  
                   <div class="col-md-12">
-                    <input type="text" name="name" class="form-control" placeholder="First and last name *" required="">
+                    <input type="text" name="name" class="form-control" placeholder="First and last name *" required>
                   </div>
-                  
-                  <div class="col-md-12 ">
-                    <input type="email" class="form-control" name="email" placeholder="Email *" required="">
-                  </div>
-                  
                   <div class="col-md-12">
-                    <input type="text" class="form-control" name="whatsapp" placeholder="WhatsApp (if you prefer this form of contact)">
+                    <input type="email" name="email" class="form-control" placeholder="Email *" required>
                   </div>
-                  
                   <div class="col-md-12">
-                    <select class="form-select" name="program" aria-label="program">
-                      <option selected="">Program of your interest</option>
-                      <option value="1">All of them</option>
-                      <option value="2">Spanish immersions</option>
-                      <option value="3">Specials</option>
-                      <option value="3">Online Spanish classes</option>               
+                    <input type="tel" name="whatsapp" class="form-control" placeholder="WhatsApp (optional)">
+                  </div>
+                  <div class="col-md-12">
+                    <select class="form-select" name="program" required>
+                      <option value="">Program of your interest</option>
+                      <option value="all">All of them</option>
+                      <option value="immersions">Spanish immersions</option>
+                      <option value="specials">Specials</option>
+                      <option value="online">Online Spanish classes</option>
                     </select>
                   </div>
-                  
-                  <div class="col-md-12" <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree" name="agree" value="YES">
-                    <label class="form-check-label" for="agree">Keep me updated with the newsletter. </label>
+                  <div class="col-md-12">
+                    <textarea name="message" class="form-control" rows="4" placeholder="Let us know more about your goals, preferred destinations, or dates (optional)"></textarea>
                   </div>
-                  
-                  <div class="col-lg-12"> 
+                  <div class="col-md-12">
+                    <input type="checkbox" class="form-check-input" id="agree" name="agree" value="YES">
+                    <label class="form-check-label" for="agree">Keep me updated with the newsletter.</label>
+                  </div>
+                  <div class="col-lg-12">
                     <label for="boletin">Your contact information will only be used in response to your request: <a href="privacy.html" target="_blank">privacy policy</a></label>
                   </div>
-                  
-                  <div class="col-lg-12">   
-                    <input id="submit" type="submit" class="btn btn-dark" value="SEND">
-                  </div>
-                  
                   <!-- wegbot -->
-                  <div class="col-md-12">                
-                    <input type="text" name="url" class="verberg" autocomplete="off">               
+                  <div class="col-md-12">
+                    <input type="text" name="url" class="verberg" autocomplete="off">
                   </div>
                   <!-- end wegbot -->
-                
-                </div>          
+                  <div class="col-lg-12 text-center">
+                                      <div class="col-lg-12">   
+                    <button type="submit" class="btn btn-dark">SEND</button>
+                     <div class="loading">Loading...</div>
+                     <div class="error-message"></div>
+                     <div class="sent-message">Thank 
+                     you! We'll get back to you shortly. 
+                    </div>
+                  </div>
+
+
+
+                    <div class="loading">Loading...</div>
+                    <div class="error-message"></div>
+                    <div class="sent-message">Thank you! We'll get back to you shortly.</div>
+                  </div>
+                </div>
               </div>
             </form>
             <!-- END FORM -->
-          </div>   
+          </div>
         </div>
       </div>
-
     </section>
     <!-- End TEXT 1/2 -->
 
@@ -350,13 +351,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="col-lg-3 col-md-6 footer-newsletter">
           <h4>Our Newsletter</h4>
           <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="../assets/forms/newsletter.php" method="post">
+          <form action="/api/newsletter" method="POST" class="php-email-form">
             <!-- wegbot -->
-            <div class="col-md-12">                
-            <input type="text" name="url" class="verberg" autocomplete="off">               
+            <div class="col-md-12">
+              <input type="text" name="url" class="verberg" autocomplete="off">
             </div>
             <!-- end wegbot -->
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+            <div class="newsletter-form">
+              <input type="email" name="email" required>
+              <input type="submit" value="Subscribe">
+            </div>
+          
+            <div class="loading">Loading...</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Thanks! You're now subscribed to our newsletter.</div>
           </form>
           <br>
           <h4>Learn Spanish in...</h4>
@@ -400,6 +408,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
 
+  <!-- WhatsApp Floating Button -->
+<a href="https://api.whatsapp.com/send?phone=+527771518006&text=Hola,"
+   class="float" target="_blank">
+  <img src="../assets/img/icon-whatsapp.png" alt="WhatsApp">
+</a>
 </body>
 
 </html>
