@@ -1,10 +1,12 @@
 // Middleware de validación
 export function validateRequiredFields(fields) {
   return (req, res, next) => {
+    console.log('Datos recibidos:', req.body); // Log de los datos recibidos para depurar
+
     const missing = [];
     const invalids = [];
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // más estricta que /^\S+@\S+\.\S+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex más estricta para emails
 
     fields.forEach((field) => {
       const value = req.body[field];

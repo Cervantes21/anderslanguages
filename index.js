@@ -1,4 +1,3 @@
-// index.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -19,23 +18,28 @@ const __dirname = path.dirname(__filename);
 
 // Middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Necesario para procesar cuerpos JSON
+
+// Registrar rutas API
+app.use('/api', routes);
 
 // Servir archivos estáticos desde la raíz del proyecto
 app.use(express.static(__dirname));
 
-// Ruta principal: servir index.html
+// Ruta principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Verificar conexión a la base de datos y arrancar servidor
+// Ruta fallback para cuando no se encuentra ninguna otra ruta
+app.use((req, res) => {
+  res.status(404).send('Ruta no encontrada');
+});
+
+// Conexión a la base de datos y arranque del servidor
 pool.connect()
   .then(() => {
     console.log('✅ Conectado a PostgreSQL');
-
-    // Registrar rutas API
-    app.use('/api', routes);
 
     app.listen(port, () => {
       console.log(`🚀 Servidor escuchando en http://localhost:${port}`);
