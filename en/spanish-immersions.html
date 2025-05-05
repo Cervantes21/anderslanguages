@@ -278,77 +278,88 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
     </section>
     <!-- End EXPLORE -->
-    
+
     <!-- PROPOSAL ALL PAGES -->
-    <section id="proposal" class="call-to-action section dark-background">
+<section id="proposal" class="call-to-action section dark-background">
+  <img src="../assets/img/backgrounds-proposalaction.jpg" alt="">
+
+  <div class="container section-title" data-aos="fade-up" data-aos-delay="100">
+    <h3>Let's talk about your Spanish immersion.</h3>
+  </div>
+
+  <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
       
-      <img src="../assets/img/backgrounds-proposalaction.jpg" alt="">
-      
-      <div class="container section-title" data-aos="fade-up" data-aos-delay="100">
-              <h3>Let's talk about your Spanish immersion.</h3>
+      <div class="col-lg-5"> 
+        <div class="text-left">
+          <p>My name is Pedro. I will be happy to help you get started.</p>
+          <p>Here at Anders Languages, we believe in a fully personalized approach to your Spanish immersion experience.</p>
+          <p>That's why we'll start by creating a custom proposal just for you. This will help you see all the options available and help us determine the best way to tailor a course that meets your needs and expectations.</p>
+          <p>Just fill out the form below, and I'll get right to work.</p>
+        </div> 
       </div>
       
-      <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4">
-          
-          <div class="col-lg-5"> 
-            <div class="text-left">
-              <p>My name is Pedro. I will be happy to help you get started</p>
-              <p>Here at Anders Languages, we believe in a fully personalized approach to your Spanish immersion experience.</p>
-              <p>That's why we'll start by creating a custom proposal just for you. This will help you see all the options available and help us determine the best way to tailor a course that meets your needs and expectations.</p>
-              <p>Just fill out the form below, and I'll get right to work.<p>
-            </div> 
+      <div class="col-lg-7">
+        <!-- START FORM -->
+        <form 
+          action="/api/proposals" 
+          method="POST"
+          class="php-email-form" 
+          data-type="proposal-general"
+          data-aos="fade-up" 
+          data-aos-delay="500"
+        >
+          <div class="row gy-4">
+
+            <div class="col-md-12">
+              <input type="text" name="name" class="form-control" placeholder="First and last name *" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="email" name="email" class="form-control" placeholder="Email *" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="text" name="whatsapp" class="form-control" placeholder="WhatsApp (if you prefer this form of contact)">
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-check">
+                <input type="checkbox" name="boletin" value="true" class="form-check-input" id="boletin">
+                <label class="form-check-label" for="boletin">Keep me updated with the newsletter.</label>
+              </div>
+            </div>
+
+            <!-- Hidden fields required by backend -->
+            <input type="hidden" name="program" value="Spanish Immersion">
+            <input type="hidden" name="proposal_type" value="proposal-general">
+
+            <!-- Anti-spam honeypot -->
+            <div class="col-md-12 d-none">
+              <input type="text" name="url" class="form-control" autocomplete="off">
+            </div>
+
+            <div class="col-lg-12">   
+              <button type="submit" class="btn btn-dark">SEND</button>
+              <div class="loading" style="display: none;">Sending...</div>
+              <div class="sent-message" style="color: white; display: none;">Thank you! We'll get back to you shortly.</div>
+            </div>
+
+            <div class="col-lg-12">
+              <small class="text-white">
+                Your contact information will only be used in response to your request:
+                <strong><a href="privacy.html" target="_blank" style="color: #FFFFFF;">privacy policy</a></strong>
+              </small>
+            </div>
+
           </div>
-          
-          <div class="col-lg-7">
-              <!-- START FORM -->
-              <form action="/api/proposals" method="POST" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
-                <div class="row gy-4">
-                  <div class="col-md-12">
-                    <input type="text" name="name" class="form-control" placeholder="First and last name *" required="">
-                  </div>
-                  <div class="col-md-6 ">
-                    <input type="email" class="form-control" name="email" placeholder="Email *" required="">
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" class="form-control" name="whatsapp" placeholder="WhatsApp (if you prefer this form of contact)">
-                  </div>
-                  <div class="col-md-12" <div="">
-                    <input type="checkbox" class="form-check-input" id="agree" name="agree" value="YES">
-
-                    <label class="form-check-label" for="agree">Keep me updated with the newsletter.</label>
-
-                  </div>
-                  <div class="col-lg-12">   
-                                      <div class="col-lg-12">   
-                    <button type="submit" class="btn btn-dark">SEND</button>
-                     <div class="loading">Loading...</div>
-                     <div class="error-message"></div>
-                     <div class="sent-message">Thank 
-                     you! We'll get back to you shortly. 
-                    </div>
-                  </div>
-
-
-
-
-                  </div>
-                  <div class="col-lg-12">
-                    <label for="boletin">Your contact information will only be used in response to your request: <strong><a href="privacy.html" style="color: #FFFFFF;" target="_blank">privacy policy</a></strong></label>
-                  </div>
-                  <!-- wegbot -->
-                  <div class="col-md-12">                
-                    <input type="text" name="url" class="verberg" autocomplete="off">               
-                  </div>
-                  <!-- end wegbot -->
-                </div>
-              </form>
-              <!-- END FORM -->
-          </div>
-        </div>
+        </form>
+        <!-- END FORM -->
       </div>
-    </section>
-    <!-- End PROPOSAL ALL PAGES -->
+    </div>
+  </div>
+</section>
+<!-- End PROPOSAL ALL PAGES -->
 
   </main>
   <!-- End MAIN --> 
@@ -420,24 +431,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </ul>
         </div>
 
-        <div class="col-lg-3 col-md-6 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="/api/newsletter" method="POST" class="php-email-form">
-            <!-- wegbot -->
-            <div class="col-md-12">
-              <input type="text" name="url" class="verberg" autocomplete="off">
-            </div>
-            <!-- end wegbot -->
-            <div class="newsletter-form">
-              <input type="email" name="email" required>
-              <input type="submit" value="Subscribe">
-            </div>
-          
-            <div class="loading">Loading...</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Thanks! You're now subscribed to our newsletter.</div>
-          </form>
+      <div class="col-lg-3 col-md-6 footer-newsletter">
+        <h4>Our Newsletter</h4>
+        <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+        <form 
+          action="/api/newsletter" 
+          method="POST" 
+          class="php-email-form" 
+          data-type="newsletter"
+        >
+          <!-- Honeypot anti-spam -->
+          <div class="d-none">
+            <input type="text" name="url" autocomplete="off">
+          </div>
+        
+          <div class="newsletter-form">
+            <input type="email" name="email" class="form-control" placeholder="Your email address *" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+        
+          <div class="loading" style="display: none;">Loading...</div>
+          <div class="sent-message" style="display: none;">Thanks! You’re now subscribed to our newsletter.</div>
+        </form>
+      </div>
           <br>
           <h4>Learn Spanish in...</h4>
           <ul>
@@ -479,6 +495,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
+  <!-- Enlace al script general -->
+  <script src="/assets/js/form-handler.js"></script>
 
 </body>
 

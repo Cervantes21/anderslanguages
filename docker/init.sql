@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS bookings (
   agree BOOLEAN,
   residence TEXT,
   language TEXT,
+  reservation_type TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -50,6 +51,11 @@ CREATE TABLE IF NOT EXISTS proposals (
   whatsapp TEXT,
   program TEXT,
   boletin BOOLEAN,
+  proposal_type TEXT NOT NULL,  -- Agregado 'proposal_type'
+  residence TEXT,
+  language TEXT,
+  duration TEXT,
+  comment TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

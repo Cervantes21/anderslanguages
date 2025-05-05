@@ -995,24 +995,29 @@ About ANDERS LANGUAGES
           </ul>
         </div>
 
-        <div class="col-lg-3 col-md-6 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="/api/newsletter" method="POST" class="php-email-form">
-            <!-- wegbot -->
-            <div class="col-md-12">                
-              <input type="text" name="url" class="verberg" autocomplete="off">               
-            </div>
-            <!-- end wegbot -->
-            <div class="newsletter-form">
-              <input type="email" name="email" required>
-              <input type="submit" value="Subscribe">
-            </div>
-          
-            <div class="loading">Loading...</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Thanks! You're now subscribed to our newsletter.</div>
-          </form>
+      <div class="col-lg-3 col-md-6 footer-newsletter">
+        <h4>Our Newsletter</h4>
+        <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+        <form 
+          action="/api/newsletter" 
+          method="POST" 
+          class="php-email-form" 
+          data-type="newsletter"
+        >
+          <!-- Honeypot anti-spam -->
+          <div class="d-none">
+            <input type="text" name="url" autocomplete="off">
+          </div>
+        
+          <div class="newsletter-form">
+            <input type="email" name="email" class="form-control" placeholder="Your email address *" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+        
+          <div class="loading" style="display: none;">Loading...</div>
+          <div class="sent-message" style="display: none;">Thanks! You’re now subscribed to our newsletter.</div>
+        </form>
+      </div>
           <br>
           <h4>Learn Spanish in...</h4>
           <ul>
@@ -1054,6 +1059,8 @@ About ANDERS LANGUAGES
 
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
+    <!-- General form-handler script -->
+  <script src="/assets/js/form-handler.js"></script>
 
 </body>
 

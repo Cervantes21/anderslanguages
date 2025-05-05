@@ -286,17 +286,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </ul>
         </div>
 
-        <div class="col-lg-3 col-md-6 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="../assets/forms/newsletter.php" method="post">
-            <!-- wegbot -->
-            <div class="col-md-12">                
-            <input type="text" name="url" class="verberg" autocomplete="off">               
-            </div>
-            <!-- end wegbot -->
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-          </form>
+      <div class="col-lg-3 col-md-6 footer-newsletter">
+        <h4>Our Newsletter</h4>
+        <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+        <form 
+          action="/api/newsletter" 
+          method="POST" 
+          class="php-email-form" 
+          data-type="newsletter"
+        >
+          <!-- Honeypot anti-spam -->
+          <div class="d-none">
+            <input type="text" name="url" autocomplete="off">
+          </div>
+        
+          <div class="newsletter-form">
+            <input type="email" name="email" class="form-control" placeholder="Your email address *" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+        
+          <div class="loading" style="display: none;">Loading...</div>
+          <div class="sent-message" style="display: none;">Thanks! You’re now subscribed to our newsletter.</div>
+        </form>
+      </div>
           <br>
           <h4>Learn Spanish in...</h4>
           <ul>
@@ -338,6 +350,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
+  <!-- Enlace al script general -->
+  <script src="/assets/js/form-handler.js"></script>
 
 </body>
 

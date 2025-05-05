@@ -212,73 +212,100 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </section>
     <!-- End TITLE -->
     
-    <!-- TEXT 1/2 -->
-    <section id="sales" class="portfolio-details mid-background">
-      
-      <div class="container">
-        <div class="row gy-4">
-    
-          <div class="col-lg-12">
-            <!-- FORM -->
-            <form action="../assets/forms/proposal.php" method="post">       
-              <div class="portfolio-description">
-
-                <div class="row gy-4">
-                  
-                  <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
-                    <input type="text" name="firstname" class="form-control" placeholder="First name *" required="">
-                  </div>
-                
-                  <div class="col-md-6" data-aos="fade-left" data-aos-delay="200">
-                    <input type="text" name="lastname" class="form-control" placeholder="Last name *" required="">
-                  </div>
-                
-                  <div class="col-md-6" data-aos="fade-right" data-aos-delay="300">
-                    <input type="text" name="cell" class="form-control" placeholder="Cell phone / mobile *" required="">
-                  </div>
-                
-                  <div class="col-md-6" data-aos="fade-left" data-aos-delay="400">
-                    <input type="text" name="recell" class="form-control" placeholder="Re-enter cell phone / mobile *" required="">
-                  </div>
-                  
-                  <div class="col-md-6" data-aos="fade-right" data-aos-delay="500">
-                    <input type="email" class="form-control" name="email" placeholder="Email *" required="">
-                  </div>
-                
-                  <div class="col-md-6" data-aos="fade-left" data-aos-delay="600">
-                    <input type="email" class="form-control" name="reemail" placeholder="Re-enter email address *" required="">
-                  </div>
-                  
-                  <div class="col-md-12" <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="agree" name="agree" value="YES" required="">
-                    <label class="form-check-label" for="agree">I acknowledge that I have read and accept the <a href="sales-online.html" target="_blank">terms and conditions</a></label>
-                  </div>
-                           
-                  <div class="portfolio-description" data-aos="fade-right" data-aos-delay="200">
-                    <p>If you can’t send the form, make sure you completed all fields.</p>
-                    <p>It can take a few seconds to get the form sent, when clicking SUBMIT.</p>
-                  </div>
-                  
-                  <div class="col-lg-12">   
-                    <input id="submit" type="submit" class="btn btn-primary" value="S U B M I T">
-                  </div>
-                  
-                  <!-- wegbot -->
-                  <div class="col-md-12">                
-                    <input type="text" name="url" class="verberg" autocomplete="off">               
-                  </div>
-                  <!-- end wegbot -->
-                
-                </div>
-                          
-              </div>
-            </form>
-            <!-- END FORM -->
+<!-- TEXT 1/2 -->
+<section id="sales" class="portfolio-details mid-background">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-12">
+        <form
+          action="/api/proposals"
+          method="POST"
+          class="php-email-form"
+          data-type="proposal-online"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <!-- Honeypot anti-spam -->
+          <div class="d-none">
+            <input type="text" name="url" autocomplete="off">
           </div>
-        </div>
+          <!-- Hidden API fields -->
+          <input type="hidden" name="program" value="Online Spanish classes">
+          <input type="hidden" name="proposal_type" value="proposal-online">
+
+          <div class="row gy-4">
+            <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                placeholder="Full name *"
+                required
+              >
+            </div>
+            <div class="col-md-6" data-aos="fade-left" data-aos-delay="200">
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="Email *"
+                required
+              >
+            </div>
+            <div class="col-md-6" data-aos="fade-right" data-aos-delay="300">
+              <input
+                type="text"
+                name="whatsapp"
+                class="form-control"
+                placeholder="WhatsApp (optional)"
+              >
+            </div>
+            <div class="col-md-12" data-aos="fade-left" data-aos-delay="400">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  name="boletin"
+                  value="true"
+                  class="form-check-input"
+                  id="newsletter"
+                >
+                <label class="form-check-label" for="newsletter">
+                  Keep me updated with the newsletter
+                </label>
+              </div>
+            </div>
+            <div class="col-md-12" data-aos="fade-up" data-aos-delay="500">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  name="agree"
+                  value="true"
+                  class="form-check-input"
+                  id="agree"
+                  required
+                >
+                <label class="form-check-label" for="agree">
+                  I acknowledge that I have read and accept the
+                  <a href="sales-online.html" target="_blank">terms and conditions</a> *
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-12" data-aos="fade-up" data-aos-delay="600">
+              <button type="submit" class="btn btn-primary">SUBMIT</button>
+              <div class="loading" style="display: none;">Sending...</div>
+              <div class="error-message" style="display: none;"></div>
+              <div class="sent-message" style="display: none;">
+                Thank you! We’ll be in touch soon.
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-    </section>
-    <!-- End TEXT 1/2 -->
+    </div>
+  </div>
+</section>
+<!-- End TEXT 1/2 -->
+
 
   </main>
   <!-- End MAIN --> 
@@ -350,24 +377,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </ul>
         </div>
 
-        <div class="col-lg-3 col-md-6 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="/api/newsletter" method="POST" class="php-email-form">
-            <!-- wegbot -->
-            <div class="col-md-12">
-              <input type="text" name="url" class="verberg" autocomplete="off">
-            </div>
-            <!-- end wegbot -->
-            <div class="newsletter-form">
-              <input type="email" name="email" required>
-              <input type="submit" value="Subscribe">
-            </div>
-          
-            <div class="loading">Loading...</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Thanks! You're now subscribed to our newsletter.</div>
-          </form>
+      <div class="col-lg-3 col-md-6 footer-newsletter">
+        <h4>Our Newsletter</h4>
+        <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+        <form 
+          action="/api/newsletter" 
+          method="POST" 
+          class="php-email-form" 
+          data-type="newsletter"
+        >
+          <!-- Honeypot anti-spam -->
+          <div class="d-none">
+            <input type="text" name="url" autocomplete="off">
+          </div>
+        
+          <div class="newsletter-form">
+            <input type="email" name="email" class="form-control" placeholder="Your email address *" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+        
+          <div class="loading" style="display: none;">Loading...</div>
+          <div class="sent-message" style="display: none;">Thanks! You’re now subscribed to our newsletter.</div>
+        </form>
+      </div>
           <br>
           <h4>Learn Spanish in...</h4>
           <ul>
@@ -409,6 +441,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
+    <!-- General form-handler script -->
+  <script src="/assets/js/form-handler.js"></script>
 
 </body>
 
