@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  // Devuelve la URL de gracias según el data-type
+  // Returns the thank-you page URL based on the form’s data-type
   function getRedirectUrl(type) {
     switch (type) {
       case 'newsletter':
@@ -25,7 +25,7 @@
     }
   }
 
-  // Selecciona todos los formularios
+  // Select all forms with the .php-email-form class
   const forms = document.querySelectorAll('.php-email-form');
 
   forms.forEach(function (form) {
@@ -38,16 +38,16 @@
         return;
       }
 
-      // Muestra el spinner, oculta mensajes previos
+      // Show the loading spinner, hide any previous messages
       thisForm.querySelector('.loading')?.classList.add('d-block');
       thisForm.querySelector('.error-message')?.classList.remove('d-block');
       thisForm.querySelector('.sent-message')?.classList.remove('d-block');
 
-      // Recopila datos
+      // Gather form data into an object
       const formData = new FormData(thisForm);
       const jsonData = {};
       formData.forEach((value, key) => {
-        // checkbox → boolean
+        // Convert checkbox to boolean
         const el = thisForm.elements[key];
         if (el && el.type === 'checkbox') {
           jsonData[key] = el.checked;
@@ -66,19 +66,21 @@
           body: JSON.stringify(jsonData)
         });
 
-        // Oculta spinner
+        // Hide the loading spinner
         thisForm.querySelector('.loading')?.classList.remove('d-block');
 
-        // Intenta parsear JSON incluso en error
+        // Attempt to parse JSON, even if the response indicates an error
         let data = {};
-        try { data = await response.json(); } catch {}
+        try {
+          data = await response.json();
+        } catch {}
 
         if (response.ok && !data.error) {
-          // Éxito
+          // Success: show sent message, reset the form
           thisForm.querySelector('.sent-message')?.classList.add('d-block');
           thisForm.reset();
 
-          // Redirección tras 1.5s
+          // Redirect after 1.5 seconds
           const type = thisForm.dataset.type;
           if (type) {
             setTimeout(() => {
@@ -86,16 +88,22 @@
             }, 1500);
           }
         } else {
-          const msg = data.error || data.message || 'Error al enviar el formulario.';
+          const msg = data.error || data.message || 'Error sending the form.';
           displayError(thisForm, msg);
         }
       } catch (error) {
+        // Hide spinner and display error
         thisForm.querySelector('.loading')?.classList.remove('d-block');
-        displayError(thisForm, error.message || 'Error al enviar el formulario.');
+        displayError(thisForm, error.message || 'Error sending the form.');
       }
     });
   });
 
+  /**
+   * Displays an error message in the form
+   * @param {HTMLFormElement} form 
+   * @param {string} error 
+   */
   function displayError(form, error) {
     const err = form.querySelector('.error-message');
     if (err) {

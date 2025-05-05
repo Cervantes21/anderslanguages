@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 const router = express.Router();
 
-// Configurar transporter para envío de emails
+// Configure transporter for sending emails
 const transportConfig = {
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT, 10),
@@ -18,7 +18,9 @@ if (process.env.SMTP_USER && process.env.SMTP_PASS) {
 }
 const transporter = nodemailer.createTransport(transportConfig);
 
-// Genera el subject según el tipo de propuesta
+/**
+ * Generate the email subject based on the proposal type and recipient name
+ */
 function getProposalSubject(type, name) {
   switch (type) {
     case 'prices':
@@ -40,13 +42,13 @@ function getProposalSubject(type, name) {
 router.post('/', async (req, res) => {
   const { name, email, whatsapp, program, boletin, proposal_type } = req.body;
 
-  // Validación de campos obligatorios
+  // Validate required fields
   if (!name || !email || !program || !proposal_type) {
-    return res.status(400).json({ error: 'All required fields must be filled out' });
+    return res.status(400).json({ error: 'All required fields must be provided' });
   }
 
   try {
-    // Insertar en la base de datos
+    // Insert proposal into the database
     const result = await pool.query(
       `INSERT INTO proposals(
          name, email, whatsapp, program, boletin, proposal_type
@@ -56,46 +58,49 @@ router.post('/', async (req, res) => {
     );
     const prop = result.rows[0];
 
-    // Construir cuerpo del correo
+    // Build email body
     const mailBody = `
 ---- PROPOSAL ----
 Name: ${prop.name}
 Email: ${prop.email}
 WhatsApp: ${prop.whatsapp || 'N/A'}
 Program: ${prop.program}
-Boletin: ${prop.boletin ? 'Yes' : 'No'}
+Newsletter subscription: ${prop.boletin ? 'Yes' : 'No'}
 Proposal Type: ${prop.proposal_type}
 Timestamp: ${prop.created_at}
 `;
 
-    // Enviar email desde y hacia la cuenta configurada
+    // Send email to configured address
     await transporter.sendMail({
       from: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
-      to: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
+      to:   process.env.SMTP_USER || 'no-reply@anderslanguages.com',
       subject: getProposalSubject(prop.proposal_type, prop.name),
       text: mailBody,
     });
 
+    console.info('Proposal created:', prop.id);
     return res.status(201).json({
       message: 'Proposal created successfully',
       data: prop,
     });
   } catch (error) {
-    console.error('Error en proposals.js:', error);
+    console.error('Error in proposals.js:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Endpoint to obtener todas las propuestas
+// Endpoint to fetch all proposals
 router.get('/', async (req, res) => {
   try {
+    // Retrieve all proposal entries
     const result = await pool.query('SELECT * FROM proposals');
+    console.info(`Fetched ${result.rows.length} proposals`);
     return res.status(200).json({
-      message: 'Proposals list retrieved successfully',
+      message: 'Proposals retrieved successfully',
       data: result.rows,
     });
   } catch (error) {
-    console.error('Error retrieving data from the database:', error);
+    console.error('Error fetching proposals:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });

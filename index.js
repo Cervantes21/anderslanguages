@@ -12,40 +12,40 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Obtener __dirname en módulos ES
+// Obtain __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middlewares
 app.use(cors());
-app.use(express.json()); // Necesario para procesar cuerpos JSON
+app.use(express.json()); // Necessary to parse JSON bodies
 
-// Registrar rutas API
+// Register API routes
 app.use('/api', routes);
 
-// Servir archivos estáticos desde la raíz del proyecto
+// Serve static files from the project root
 app.use(express.static(__dirname));
 
-// Ruta principal
+// Main route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Ruta fallback para cuando no se encuentra ninguna otra ruta
+// Fallback route for when no other route is found
 app.use((req, res) => {
-  res.status(404).send('Ruta no encontrada');
+  res.status(404).send('Route not found');
 });
 
-// Conexión a la base de datos y arranque del servidor
+// Connect to the database and start the server
 pool.connect()
   .then(() => {
-    console.log('✅ Conectado a PostgreSQL');
+    console.info('Connected to PostgreSQL');
 
     app.listen(port, () => {
-      console.log(`🚀 Servidor escuchando en http://localhost:${port}`);
+      console.info(`Server listening on http://localhost:${port}`);
     });
   })
   .catch((err) => {
-    console.error('❌ Error al conectar a PostgreSQL:', err);
+    console.error('Error connecting to PostgreSQL:', err);
     process.exit(1);
   });

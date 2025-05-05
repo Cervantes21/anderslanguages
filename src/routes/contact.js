@@ -5,7 +5,7 @@ import { validateContact } from '../middleware/validators.js';
 
 const router = express.Router();
 
-// Configurar transporter con auth opcional
+// Configure transporter (authentication optional)
 const transportConfig = {
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT, 10),
@@ -25,14 +25,14 @@ router.post('/', validateContact, async (req, res) => {
   const { name, email, message } = req.body;
 
   try {
-    // Guardar en BD
+    // Save to database
     const result = await pool.query(
       'INSERT INTO contacts(name, email, message) VALUES($1, $2, $3) RETURNING *',
       [name, email, message]
     );
     const contactEntry = result.rows[0];
 
-    // Construir correo
+    // Build email content
     const mailBody = `
 ---- CONTACT ----
 Name: ${contactEntry.name}
@@ -42,18 +42,20 @@ ${contactEntry.message}
 Timestamp: ${contactEntry.created_at}
 `;
 
-    // Enviar email (si auth no está definido, nodemailer lo omitirá)
+    // Send email (auth omitted if not configured)
     await transporter.sendMail({
       from: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
-      to: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
+      to:   process.env.SMTP_USER || 'no-reply@anderslanguages.com',
       subject: CONTACT_SUBJECT,
       text: mailBody
     });
 
+    console.info('Contact entry saved and email sent');
     return res.status(201).json({ success: true, data: contactEntry });
+
   } catch (err) {
-    console.error('❌ Error en contact.js al procesar contacto:', err);
-    return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    console.error('Error processing contact request:', err);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
 

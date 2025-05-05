@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 const router = express.Router();
 
-// Configurar transporter para envío de emails
+// Configure transporter for sending emails
 const transportConfig = {
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT, 10),
@@ -43,24 +43,24 @@ router.post('/', async (req, res) => {
     second, agree, residence, language, reservation_type
   } = req.body;
 
-  // Validación de campos obligatorios
+  // Validate required fields
   if (!firstname || !lastname || !email || !reservation_type || !startdate) {
-    return res.status(400).json({ error: 'Los campos obligatorios deben ser completados' });
+    return res.status(400).json({ error: 'Required fields must be provided' });
   }
 
-  // Convertir valores a booleanos válidos
-  extranight    = extranight === true || extranight === 'true';
-  business      = business === true || business === 'true';
-  cultural      = typeof cultural === 'string' ? (cultural !== '-' && cultural !== '0') : Boolean(cultural);
-  fiestas       = fiestas === '1' || fiestas === 1 || fiestas === 'true';
-  gastronomic   = typeof gastronomic === 'string' ? (gastronomic !== '-' && gastronomic !== '0') : Boolean(gastronomic);
-  golf          = golf === true || golf === 'true';
-  luxury        = luxury === true || luxury === 'true';
-  meetgreet     = meetgreet === true || meetgreet === 'true';
-  agree         = agree === true || agree === 'true';
+  // Parse boolean values
+  extranight  = extranight === true || extranight === 'true';
+  business    = business === true || business === 'true';
+  cultural    = typeof cultural === 'string' ? (cultural !== '-' && cultural !== '0') : Boolean(cultural);
+  fiestas     = fiestas === '1' || fiestas === 1 || fiestas === 'true';
+  gastronomic = typeof gastronomic === 'string' ? (gastronomic !== '-' && gastronomic !== '0') : Boolean(gastronomic);
+  golf        = golf === true || golf === 'true';
+  luxury      = luxury === true || luxury === 'true';
+  meetgreet   = meetgreet === true || meetgreet === 'true';
+  agree       = agree === true || agree === 'true';
 
   try {
-    // Inserción en la base de datos
+    // Insert into the database
     const result = await pool.query(
       `INSERT INTO bookings(
         startdate, altdate, firstname, lastname, dob, citizenship, address,
@@ -86,7 +86,7 @@ router.post('/', async (req, res) => {
 
     const booking = result.rows[0];
 
-    // Construcción del correo con datos de la reserva
+    // Build email body with booking details
     const mailBody = `
 ---- BOOKING ----
 Start date: ${booking.startdate}
@@ -131,10 +131,10 @@ Residence: ${booking.residence || 'N/A'}
 Language: ${booking.language || 'N/A'}
 Reservation type: ${booking.reservation_type}
 
-First and last name: ${booking.firstname} ${booking.lastname}
+Full name: ${booking.firstname} ${booking.lastname}
 `;
 
-    // Enviar correo
+    // Send email
     await transporter.sendMail({
       from: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
       to:   process.env.SMTP_USER || 'no-reply@anderslanguages.com',
@@ -143,14 +143,15 @@ First and last name: ${booking.firstname} ${booking.lastname}
     });
 
     res.status(201).json({
-      message: 'Reserva creada correctamente',
+      message: 'Booking created successfully',
       data: booking
     });
 
   } catch (error) {
-    console.error('Error en bookings.js:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    console.error('Error in bookings.js:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 export default router;
+// This code defines an Express router for handling booking requests.
