@@ -1,6 +1,7 @@
+-- docker/init.sql
 -- Tabla: bookings
 CREATE TABLE IF NOT EXISTS bookings (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   startdate DATE NOT NULL,
   altdate DATE,
   firstname TEXT NOT NULL,
@@ -34,36 +35,36 @@ CREATE TABLE IF NOT EXISTS bookings (
   language TEXT,
   reservation_type TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabla: newsletters
 CREATE TABLE IF NOT EXISTS newsletters (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   email TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabla: proposals
 CREATE TABLE IF NOT EXISTS proposals (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   whatsapp TEXT,
   program TEXT,
   boletin BOOLEAN,
-  proposal_type TEXT NOT NULL,  -- Agregado 'proposal_type'
+  proposal_type TEXT NOT NULL,
   residence TEXT,
   language TEXT,
   duration TEXT,
   comment TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabla: contacts (formulario general)
 CREATE TABLE IF NOT EXISTS contacts (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   message TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

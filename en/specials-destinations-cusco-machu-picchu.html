@@ -655,30 +655,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </ul>
         </div>
 
-<div class="col-lg-3 col-md-6 footer-newsletter">
-  <h4>Our Newsletter</h4>
-  <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-  <form 
-    action="/api/newsletter" 
-    method="POST" 
-    class="php-email-form" 
-    data-type="newsletter"
-  >
-    <!-- Honeypot anti-spam -->
-    <div class="d-none">
-      <input type="text" name="url" autocomplete="off">
-    </div>
-
-    <div class="newsletter-form">
-      <input type="email" name="email" class="form-control" placeholder="Your email address *" required>
-      <button type="submit" class="btn btn-primary">Subscribe</button>
-    </div>
-
-    <div class="loading" style="display: none;">Loading...</div>
-    <div class="error-message" style="display: none;"></div>
-    <div class="sent-message" style="display: none;">Thanks! You’re now subscribed to our newsletter.</div>
-  </form>
-</div>
+        <div class="col-lg-3 col-md-6 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          <form 
+            action="/api/newsletter" 
+            method="POST" 
+            class="php-email-form" 
+            data-type="newsletter"
+          >
+            <!-- Honeypot anti-spam -->
+            <div class="d-none">
+              <input type="text" name="url" autocomplete="off">
+            </div>
+          
+            <div class="newsletter-form">
+              <input type="email" name="email" class="form-control" placeholder="Your email address *" required>
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </div>
+          
+            <div class="loading" style="display: none;">Loading...</div>
+            <div class="sent-message" style="display: none;">Thanks! You’re now subscribed to our newsletter.</div>
+          </form>
           <br>
           <h4>Learn Spanish in...</h4>
           <ul>

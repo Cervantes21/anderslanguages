@@ -11,6 +11,10 @@ build/
 # Ignore environment variable files
 .env
 .env.local
+.env.development
+.env.production
+.env.test
+*.env*
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db

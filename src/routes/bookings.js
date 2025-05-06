@@ -7,7 +7,7 @@ const router = express.Router();
 // Configure transporter for sending emails
 const transportConfig = {
   host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT, 10),
+  port: Number(process.env.SMTP_PORT),
   secure: process.env.SMTP_SECURE === 'true',
 };
 if (process.env.SMTP_USER && process.env.SMTP_PASS) {
@@ -27,14 +27,14 @@ function getBookingSubject(type) {
     case 'specials-all':
       return '**EN* BOOKING SPECIALS ALL *** Spanish immersion: your reservation';
     case 'specials-sev':
-      return '**EN* BOOKING SPECIALS SEV *** Spanish immersion: your reservation';
+      return '**EN* BOOKING SPECIALS SEV *** Spaanse immersion: your reservation';
     default:
       return '**EN* BOOKING *** Spanish immersion: your booking';
   }
 }
 
 router.post('/', async (req, res) => {
-  let {
+  const {
     startdate, altdate, firstname, lastname, dob,
     citizenship, address, cell, recell, email, remail,
     program, schedule, instructor, room, extranight,
@@ -43,50 +43,37 @@ router.post('/', async (req, res) => {
     second, agree, residence, language, reservation_type
   } = req.body;
 
-  // Validate required fields
   if (!firstname || !lastname || !email || !reservation_type || !startdate) {
     return res.status(400).json({ error: 'Required fields must be provided' });
   }
 
-  // Parse boolean values
-  extranight  = extranight === true || extranight === 'true';
-  business    = business === true || business === 'true';
-  cultural    = typeof cultural === 'string' ? (cultural !== '-' && cultural !== '0') : Boolean(cultural);
-  fiestas     = fiestas === '1' || fiestas === 1 || fiestas === 'true';
-  gastronomic = typeof gastronomic === 'string' ? (gastronomic !== '-' && gastronomic !== '0') : Boolean(gastronomic);
-  golf        = golf === true || golf === 'true';
-  luxury      = luxury === true || luxury === 'true';
-  meetgreet   = meetgreet === true || meetgreet === 'true';
-  agree       = agree === true || agree === 'true';
-
   try {
-    // Insert into the database
-    const result = await pool.query(
-      `INSERT INTO bookings(
+    const placeholders = Array(32).fill('?').join(', ');
+    const values = [
+      startdate, altdate, firstname, lastname, dob, citizenship, address,
+      cell, recell, email, remail, program, schedule, instructor, room,
+      extranight, duration, business, cultural, fiestas, gastronomic,
+      golf, luxury, meetgreet, comment, company, bill, second, agree,
+      residence, language, reservation_type
+    ];
+
+    const [insertResult] = await pool.query(
+      `INSERT INTO bookings (
         startdate, altdate, firstname, lastname, dob, citizenship, address,
         cell, recell, email, remail, program, schedule, instructor, room,
         extranight, duration, business, cultural, fiestas, gastronomic,
         golf, luxury, meetgreet, comment, company, bill, second, agree,
         residence, language, reservation_type
-      ) VALUES(
-        $1, $2, $3, $4, $5, $6, $7,
-        $8, $9, $10, $11, $12, $13, $14, $15,
-        $16, $17, $18, $19, $20, $21,
-        $22, $23, $24, $25, $26, $27, $28,
-        $29, $30, $31, $32
-      ) RETURNING *`,
-      [
-        startdate, altdate, firstname, lastname, dob, citizenship, address,
-        cell, recell, email, remail, program, schedule, instructor, room,
-        extranight, duration, business, cultural, fiestas, gastronomic,
-        golf, luxury, meetgreet, comment, company, bill, second, agree,
-        residence, language, reservation_type
-      ]
+      ) VALUES (${placeholders})`,
+      values
     );
 
-    const booking = result.rows[0];
+    const [rows] = await pool.query(
+      'SELECT * FROM bookings WHERE id = ?',
+      [insertResult.insertId]
+    );
+    const booking = rows[0];
 
-    // Build email body with booking details
     const mailBody = `
 ---- BOOKING ----
 Start date: ${booking.startdate}
@@ -104,7 +91,7 @@ Second guest: ${booking.second || 'N/A'}
 
 Program: ${booking.program || 'N/A'}
 Schedule: ${booking.schedule || 'N/A'}
-Second instructor: ${booking.instructor || 'N/A'}
+Instructor: ${booking.instructor || 'N/A'}
 Room: ${booking.room || 'N/A'}
 Extra night: ${booking.extranight ? 'Yes' : 'No'}
 Duration: ${booking.duration || 'N/A'}
@@ -130,11 +117,8 @@ Agree to T&C: ${booking.agree ? 'Yes' : 'No'}
 Residence: ${booking.residence || 'N/A'}
 Language: ${booking.language || 'N/A'}
 Reservation type: ${booking.reservation_type}
-
-Full name: ${booking.firstname} ${booking.lastname}
 `;
 
-    // Send email
     await transporter.sendMail({
       from: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
       to:   process.env.SMTP_USER || 'no-reply@anderslanguages.com',
@@ -148,10 +132,9 @@ Full name: ${booking.firstname} ${booking.lastname}
     });
 
   } catch (error) {
-    console.error('Error in bookings.js:', error);
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 export default router;
-// This code defines an Express router for handling booking requests.

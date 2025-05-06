@@ -3,48 +3,41 @@ import pool from '../db.js';
 
 const router = express.Router();
 
-// Endpoint to add an email address to the newsletter
+// Create a new newsletter subscription
 router.post('/', async (req, res) => {
   const { email } = req.body;
-
   if (!email) {
     return res.status(400).json({ success: false, error: 'Email is required' });
   }
 
   try {
-    // Insert into the newsletters table
-    const result = await pool.query(
-      'INSERT INTO newsletters(email) VALUES($1) RETURNING *',
+    // Insert into MySQL
+    const [insertResult] = await pool.query(
+      'INSERT INTO newsletters(email) VALUES (?)',
       [email]
     );
 
-    const newEntry = result.rows[0];
-    console.info('Newsletter signup saved:', newEntry.email);
+    // Retrieve the new entry
+    const [rows] = await pool.query(
+      'SELECT * FROM newsletters WHERE id = ?',
+      [insertResult.insertId]
+    );
+    const newEntry = rows[0];
 
-    // Respond with the newly created entry
-    return res.status(201).json({
-      success: true,
-      data: newEntry
-    });
+    return res.status(201).json({ success: true, data: newEntry });
   } catch (error) {
-    console.error('Error inserting newsletter email:', error);
+    console.error(error);
     return res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
 
-// Endpoint to fetch all newsletter subscriber emails
+// Fetch all newsletter subscriber emails
 router.get('/', async (req, res) => {
   try {
-    // Retrieve all entries from the newsletters table
-    const result = await pool.query('SELECT * FROM newsletters');
-    console.info(`Fetched ${result.rows.length} newsletter entries`);
-
-    return res.status(200).json({
-      success: true,
-      data: result.rows
-    });
+    const [rows] = await pool.query('SELECT * FROM newsletters');
+    return res.status(200).json({ success: true, data: rows });
   } catch (error) {
-    console.error('Error fetching newsletter entries:', error);
+    console.error(error);
     return res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });

@@ -5,10 +5,10 @@ import { validateContact } from '../middleware/validators.js';
 
 const router = express.Router();
 
-// Configure transporter (authentication optional)
+// Configure transporter for sending emails
 const transportConfig = {
   host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT, 10),
+  port: Number(process.env.SMTP_PORT),
   secure: process.env.SMTP_SECURE === 'true',
 };
 if (process.env.SMTP_USER && process.env.SMTP_PASS) {
@@ -25,12 +25,18 @@ router.post('/', validateContact, async (req, res) => {
   const { name, email, message } = req.body;
 
   try {
-    // Save to database
-    const result = await pool.query(
-      'INSERT INTO contacts(name, email, message) VALUES($1, $2, $3) RETURNING *',
+    // Insert into MySQL
+    const [insertResult] = await pool.query(
+      'INSERT INTO contacts(name, email, message) VALUES (?, ?, ?)',
       [name, email, message]
     );
-    const contactEntry = result.rows[0];
+
+    // Retrieve the new entry
+    const [rows] = await pool.query(
+      'SELECT * FROM contacts WHERE id = ?',
+      [insertResult.insertId]
+    );
+    const contactEntry = rows[0];
 
     // Build email content
     const mailBody = `
@@ -42,7 +48,7 @@ ${contactEntry.message}
 Timestamp: ${contactEntry.created_at}
 `;
 
-    // Send email (auth omitted if not configured)
+    // Send email
     await transporter.sendMail({
       from: process.env.SMTP_USER || 'no-reply@anderslanguages.com',
       to:   process.env.SMTP_USER || 'no-reply@anderslanguages.com',
@@ -50,11 +56,10 @@ Timestamp: ${contactEntry.created_at}
       text: mailBody
     });
 
-    console.info('Contact entry saved and email sent');
     return res.status(201).json({ success: true, data: contactEntry });
 
   } catch (err) {
-    console.error('Error processing contact request:', err);
+    console.error(err);
     return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
