@@ -2,7 +2,7 @@
 // Conectar con la API local para pruebas
 // Para producción, cambia API_BASE_URL a 'https://anderslanguages.com/2025'
 define('API_BASE_URL', 'http://localhost:3000');
-$api_url = API_BASE_URL . '/api/proposals';
+$api_url = API_BASE_URL . '/2025/api/proposals';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url']) && $_POST['url'] == '') {
 
