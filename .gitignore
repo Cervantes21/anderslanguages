@@ -20,3 +20,7 @@ build/
 Thumbs.db
 docker/postgres-data/
 
+ecosystem.config.js
+ecosystem.config.ts
+ecosystem.config.cjs
+.htaccess

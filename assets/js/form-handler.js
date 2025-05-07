@@ -9,7 +9,6 @@
 //      case 'reservations-paris':
 //        return '/en/thankyou-bookings.html';
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const forms = document.querySelectorAll('.php-email-form');
 
@@ -120,6 +119,7 @@ function getRedirectUrl(type) {
     case 'specials-all':
     case 'specials-sev':
       return '/en/thankyou-bookings.html';
+    default:
+      return '/en/thankyou-alertservice.html';
   }
 }
-// Este script gestiona el envío de todos los formularios con clase .php-email-form
